@@ -303,11 +303,11 @@ contract DEX {
     }
 
     function sell(uint256 amount) public {
-        require(amount > 0, "You need to sell at least some tokens");
-        uint256 allowance = token.allowance(msg.sender, address(this));
-        require(allowance >= amount, "Check the token allowance");
-        token.transferFrom(msg.sender, address(this), amount);
-        payable(msg.sender).transfer(amount);
+        address account = address(this);
+        require(amount > 0, "Necesitas vender al menos algunos tokens");
+        require(account.balance >= amount, "Verifique su cantidad de tokens");
+        _transfer(msg.sender, account, amount);
+        msg.sender.transfer(amount);
         emit Sold(amount);
     }
 
